@@ -41,11 +41,19 @@ get_header(); ?>
             ?>
             <div class="entry-content" >
                 <div>Mission: <?php echo $mission->display_name; ?></div>
-                <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
-                <div><a href="<?php echo home_url() ?>/mission-preparation?id=<?php echo $mission->ID; ?>">Mission preparation</a></div>
-                <div><a href="<?php echo home_url() ?>/mission-flight?id=<?php echo $mission->ID; ?>">Mission flight</a></div>
-                <div><a href="<?php echo home_url() ?>/mission-archive?id=<?php echo $mission->ID; ?>">Mission archive</a></div>
+                <div>Checklist: </div>
             </div>
+
+            <div>Mission Journal:</div>
+            <?php $query = new WP_Query( 'posts_per_page=-1&author='.$mission->ID );
+            if( $query->have_posts() ) : ?>
+                <?php while( $query->have_posts() ) : $query->the_post();
+                    echo $post->post_title.'<br/>';
+                    echo $post->post_content.'<br/>';
+                    echo $post->post_date.'<br/>';
+                endwhile;
+            endif;
+            wp_reset_postdata(); ?>
 
         </div>
 

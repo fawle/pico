@@ -1,9 +1,12 @@
 <?php
-
+if (!is_user_logged_in()) {
+    wp_redirect(home_url());
+    exit();
+}
 $missionId = $_GET['id'];
 
 if (!(int) $missionId) {
-    wp_redirect(home_url().'/all-missions');
+    wp_redirect(home_url().'/mission-control');
     exit();
 }
 
@@ -26,9 +29,11 @@ get_header(); ?>
             <?php  //get user missions
             global $wpdb;
             /**@var wpdb  $wpdb */
+
+            $userId =  get_current_user_id();
             $mission = $wpdb->get_row( $wpdb->prepare(
-                'SELECT * FROM wp_users left join mission_checklist on mission_checklist.user_id = wp_users.ID
-                where ID = %d',
+                'SELECT * FROM missions inner join mission_details on missions.mission_id = mission_details.mission_id WHERE user_id = %d AND missions.mission_id = %d',
+                $userId,
                 $missionId
             ), OBJECT );
 
@@ -42,9 +47,15 @@ get_header(); ?>
             <div class="entry-content" >
                 <div>Mission: <?php echo $mission->display_name; ?></div>
                 <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
-                <div><a href="<?php echo home_url() ?>/mission-preparation?id=<?php echo $mission->ID; ?>">Mission preparation</a></div>
-                <div><a href="<?php echo home_url() ?>/mission-flight?id=<?php echo $mission->ID; ?>">Mission flight</a></div>
-                <div><a href="<?php echo home_url() ?>/mission-archive?id=<?php echo $mission->ID; ?>">Mission archive</a></div>
+                <div class="mission">
+                    Date: <?php echo date('Y.m.d', $mission->mission_date); ?><br/>
+                    Time: <?php echo date('h:m:i', $mission->mission_date); ?><br/>
+                    Lat: <?php echo $mission->latitude; ?><br/>
+                    Long: <?php echo $mission->longitude; ?><br/>
+                    Alt: <?php echo $mission->altitude; ?><br/>
+                    Vrate: <?php echo $mission->vrate; ?><br/>
+                    Hrate: <?php echo $mission->hrate; ?><br/>
+                </div>
             </div>
 
         </div>

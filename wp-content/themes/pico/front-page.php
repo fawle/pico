@@ -1,8 +1,4 @@
 <?php
-if (is_user_logged_in()) {
-    wp_redirect(home_url() . '/' . 'mission-control' );
-    exit();
-}
 get_header();
 ?>
 
@@ -11,7 +7,7 @@ get_header();
 	<main id="main" class="site-main" role="main">
         <header class="entry-header">
             <h1 class="entry-title">Exploring Science, Engineering and the world</h1>	</header>
-
+<a href="all-missions">Go to missions</a>
 
     </main><!-- .site-main -->
 

@@ -3,3 +3,13 @@ Theme Name:  Pico
 Description:  Pico (Twenty Sixteen Child Theme)
 Template:     twentysixteen
 */
+
+.mission {
+    margin: 10px;
+    background-color: #CFD5D8;
+    float: left;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: inherit;
+    position: relative;
+}
