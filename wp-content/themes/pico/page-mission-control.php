@@ -27,7 +27,10 @@ get_header(); ?>
             global $wpdb;
             /**@var wpdb  $wpdb */
             $mission = $wpdb->get_row( $wpdb->prepare(
-                'SELECT * FROM wp_users left join mission_checklist on mission_checklist.user_id = wp_users.ID
+                'SELECT * FROM wp_users 
+                inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
+                left JOIN mission_details on mission_details.mission_id = wp_users.ID
+                left join mission_checklist on mission_checklist.user_id = wp_users.ID
                 where ID = %d',
                 $missionId
             ), OBJECT );

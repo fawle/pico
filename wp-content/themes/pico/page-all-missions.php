@@ -21,7 +21,8 @@ get_header(); ?>
             $userID =  get_current_user_id();
             $results = $wpdb->get_results( "SELECT * FROM wp_users 
               inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key='wp_user_level' AND meta_value = 2
-               order by user_registered desc LIMIT 100", OBJECT );
+              left JOIN mission_details on mission_details.mission_id = wp_users.ID
+              order by user_registered desc LIMIT 100", OBJECT );
 
             include(locate_template( 'template-parts/mission.php'));
 

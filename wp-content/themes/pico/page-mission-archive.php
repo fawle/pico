@@ -1,12 +1,9 @@
 <?php
-if (!is_user_logged_in()) {
-    wp_redirect(home_url());
-    exit();
-}
+
 $missionId = $_GET['id'];
 
 if (!(int) $missionId) {
-    wp_redirect(home_url().'/mission-control');
+    wp_redirect(home_url().'/all-missions');
     exit();
 }
 
@@ -30,10 +27,12 @@ get_header(); ?>
             global $wpdb;
             /**@var wpdb  $wpdb */
 
-            $userId =  get_current_user_id();
             $mission = $wpdb->get_row( $wpdb->prepare(
-                'SELECT * FROM missions inner join mission_details on missions.mission_id = mission_details.mission_id WHERE user_id = %d AND missions.mission_id = %d',
-                $userId,
+                'SELECT * FROM wp_users 
+                inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
+                left JOIN mission_details on mission_details.mission_id = wp_users.ID
+                left join mission_checklist on mission_checklist.user_id = wp_users.ID
+                where ID = %d',
                 $missionId
             ), OBJECT );
 

@@ -3,12 +3,6 @@ if (!is_user_logged_in()) {
     wp_redirect(home_url());
     exit();
 }
-$missionId = $_GET['id'];
-
-if (!(int) $missionId) {
-    wp_redirect(home_url().'/mission-control');
-    exit();
-}
 
 get_header(); ?>
 
@@ -32,9 +26,12 @@ get_header(); ?>
 
             $userId =  get_current_user_id();
             $mission = $wpdb->get_row( $wpdb->prepare(
-                'SELECT * FROM missions inner join mission_details on missions.mission_id = mission_details.mission_id WHERE user_id = %d AND missions.mission_id = %d',
-                $userId,
-                $missionId
+                'SELECT * FROM wp_users 
+                inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
+                left JOIN mission_details on mission_details.mission_id = wp_users.ID
+                left join mission_checklist on mission_checklist.user_id = wp_users.ID
+                where ID = %d',
+                $userId
             ), OBJECT );
 
 
@@ -45,14 +42,13 @@ get_header(); ?>
 
             ?>
             <div class="entry-content" >
-                <div>Mission: <?php echo $mission->name; ?></div>
-                <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
-                <div><a href="mission-preparation?id=<?php echo $mission->ID; ?>">Mission preparation</a></div>
-                <div><a href="mission-flight?id=<?php echo $mission->ID; ?>">Mission flight</a></div>
-                <div><a href="mission-archive?id=<?php echo $mission->ID; ?>">Mission archive</a></div>
+                <div>Mission: <?php echo $mission->display_name; ?></div>
+                <div>Status will be managed here</div>
+                <div>Preparation Checkboxes will be managed here</div>
+                <div>Mission journal: quick form to add blog posts will be here</div>
             </div>
             
-            <div>Mission journal:</div>
+
 
         </div>
 

@@ -27,7 +27,10 @@ get_header(); ?>
             global $wpdb;
             /**@var wpdb  $wpdb */
             $mission = $wpdb->get_row( $wpdb->prepare(
-                'SELECT * FROM wp_users left join mission_checklist on mission_checklist.user_id = wp_users.ID
+                'SELECT * FROM wp_users 
+                inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
+                left JOIN mission_details on mission_details.mission_id = wp_users.ID
+                left join mission_checklist on mission_checklist.user_id = wp_users.ID
                 where ID = %d',
                 $missionId
             ), OBJECT );
@@ -41,10 +44,10 @@ get_header(); ?>
             ?>
             <div class="entry-content" >
                 <div>Mission: <?php echo $mission->display_name; ?></div>
-                <div>Checklist: </div>
+                <div>Checklist: checklist boxes will be displayed here</div>
             </div>
 
-            <div>Mission Journal:</div>
+            <h2>Mission Journal:</h2>
             <?php $query = new WP_Query( 'posts_per_page=-1&author='.$mission->ID );
             if( $query->have_posts() ) : ?>
                 <?php while( $query->have_posts() ) : $query->the_post();
