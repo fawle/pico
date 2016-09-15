@@ -1,4 +1,11 @@
 <?php
+/**
+ * @TODO add proper back and front end date validation
+ * @TODO add datepicker 
+ * @TODO add status flag management
+ */
+
+
 if (!is_user_logged_in()) {
     wp_redirect(home_url());
     exit();

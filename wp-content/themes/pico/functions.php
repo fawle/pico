@@ -1,5 +1,13 @@
 <?php
 /**
+ * @TODO customise login page
+ * @TODO customise admin area
+ * @TODO plug in google maps
+ * @TODO customise blogroll for 404 etc pages
+ * @TODO write tracker library
+*/
+
+/**
  * get parent styles
  */
 add_action( 'wp_enqueue_scripts', 'wp_pico_theme_enqueue_styles' );

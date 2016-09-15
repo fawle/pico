@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @TODO confirm data structure
+ */
+
 $missionId = filter_var($wp_query->query_vars['mission'], FILTER_SANITIZE_STRING);
 
 if (!$missionId) {
