@@ -34,6 +34,7 @@ add_action( 'admin_init', 'wp_pico_redirect_admin' );
 /**
  * Redirect after login
  */
+add_filter( 'login_redirect', 'wp_pico_login_redirect', 10, 3 );
 function wp_pico_login_redirect( $redirect_to, $request, $user ) {
     //is there a user to check?
     if ( isset( $user->roles ) && is_array( $user->roles ) ) {
@@ -48,8 +49,6 @@ function wp_pico_login_redirect( $redirect_to, $request, $user ) {
         return $redirect_to;
     }
 }
-
-add_filter( 'login_redirect', 'wp_pico_login_redirect', 10, 3 );
 
 /**
  * Prevent authors from seeing others' posts
@@ -88,6 +87,28 @@ function wp_pico_remove_tools()
     if (! current_user_can( $GLOBALS['post_type_object']->cap->edit_others_posts)) {
         remove_menu_page( 'tools.php' );
     }
+}
+
+/**
+ * prettify missions page querystring
+ * @param $aVars
+ * @return array
+ */
+add_filter('query_vars', 'wp_pico_add_query_vars');
+function wp_pico_add_query_vars($aVars) {
+    $aVars[] = "mission"; // represents the name of the product category as shown in the URL
+    return $aVars;
+}
+add_filter('rewrite_rules_array', 'wp_pico_add_rewrite_rules');
+function wp_pico_add_rewrite_rules($aRules) {
+    $aNewRules = array(
+        'mission-control/([^/]+)/?$' => 'index.php?pagename=mission-control&mission=$matches[1]',
+        'mission-preparation/([^/]+)/?$' => 'index.php?pagename=mission-preparation&mission=$matches[1]',
+        'mission-flight/([^/]+)/?$' => 'index.php?pagename=mission-flight&mission=$matches[1]',
+        'mission-archive/([^/]+)/?$' => 'index.php?pagename=mission-archive&mission=$matches[1]',
+    );
+    $aRules = $aNewRules + $aRules;
+    return $aRules;
 }
 
 ?>

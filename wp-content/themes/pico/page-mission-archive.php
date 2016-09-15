@@ -1,8 +1,8 @@
 <?php
 
-$missionId = $_GET['id'];
+$missionId = filter_var($wp_query->query_vars['mission'], FILTER_SANITIZE_STRING);
 
-if (!(int) $missionId) {
+if (!$missionId) {
     wp_redirect(home_url().'/all-missions');
     exit();
 }
@@ -32,7 +32,7 @@ get_header(); ?>
                 inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
                 left JOIN mission_details on mission_details.mission_id = wp_users.ID
                 left join mission_checklist on mission_checklist.user_id = wp_users.ID
-                where ID = %d',
+                where user_login = %s',
                 $missionId
             ), OBJECT );
 
@@ -46,8 +46,9 @@ get_header(); ?>
             <div class="entry-content" >
                 <div>Mission: <?php echo $mission->display_name; ?></div>
                 <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
+                <div>If we have archived any data from the tracker, it will appear below</div>
                 <div class="mission">
-                    Date: <?php echo date('Y.m.d', $mission->mission_date); ?><br/>
+                    Date: <?php echo date('Y.m.d', strtotime($mission->mission_date)); ?><br/>
                     Time: <?php echo date('h:m:i', $mission->mission_date); ?><br/>
                     Lat: <?php echo $mission->latitude; ?><br/>
                     Long: <?php echo $mission->longitude; ?><br/>

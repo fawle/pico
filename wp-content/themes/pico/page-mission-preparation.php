@@ -1,8 +1,8 @@
 <?php
 
-$missionId = $_GET['id'];
+$missionId = filter_var($wp_query->query_vars['mission'], FILTER_SANITIZE_STRING);
 
-if (!(int) $missionId) {
+if (! $missionId) {
     wp_redirect(home_url().'/all-missions');
     exit();
 }
@@ -26,25 +26,42 @@ get_header(); ?>
             <?php  //get user missions
             global $wpdb;
             /**@var wpdb  $wpdb */
-            $mission = $wpdb->get_row( $wpdb->prepare(
+            $mission = $wpdb->get_results( $wpdb->prepare(
                 'SELECT * FROM wp_users 
                 inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
-                left JOIN mission_details on mission_details.mission_id = wp_users.ID
+                left join mission_details on mission_details.mission_id = wp_users.ID
                 left join mission_checklist on mission_checklist.user_id = wp_users.ID
-                where ID = %d',
+                left join mission_steps on mission_steps.step_id = mission_checklist.step_id
+                where user_login = %s
+                order by mission_steps.step_id',
                 $missionId
-            ), OBJECT );
-
+            ) );
 
             if (!$mission) {
                 echo '<H1>Mission not found</H1>';
                 exit();
             }
-
             ?>
             <div class="entry-content" >
-                <div>Mission: <?php echo $mission->display_name; ?></div>
-                <div>Checklist: checklist boxes will be displayed here</div>
+                <div>Mission: <?php echo $mission[0]->display_name; ?></div>
+                <div>Checklist: checklist is displayed here</div>
+                <?php if (count($mission) > 1) {
+                ?>
+                <table>
+                    <tr>
+                        <td>Step</td><td>Planned For</td><td>Completed On</td>
+                    </tr>
+            
+                <?php foreach ($mission as $missionStep) { ?>
+                    <tr>
+                        <td><?php echo $missionStep->step_id .'. '. $missionStep->step_label; ?></td>
+                        <td><?php echo strtotime($missionStep->planned_for) > 0 ? date('d M Y', strtotime($missionStep->planned_for)) : 'n/a'; ?></td>
+                        <td><?php echo strtotime($missionStep->completed_on) > 0 ? date('d M Y', strtotime($missionStep->completed_on)) : 'n/a'; ?></td>
+
+                    </tr>
+                <?php } ?> 
+                </table>
+                <?php } ?>
             </div>
 
             <h2>Mission Journal:</h2>

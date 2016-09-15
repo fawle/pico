@@ -2,7 +2,7 @@
 
 $missionId = filter_var($wp_query->query_vars['mission'], FILTER_SANITIZE_STRING);
 
-if (!$missionId) {
+if (! $missionId) {
     wp_redirect(home_url().'/all-missions');
     exit();
 }
@@ -27,7 +27,7 @@ get_header(); ?>
             global $wpdb;
             /**@var wpdb  $wpdb */
             $mission = $wpdb->get_row( $wpdb->prepare(
-                'SELECT user_login as mission_name, status, display_name FROM wp_users 
+                'SELECT * FROM wp_users 
                 inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
                 left JOIN mission_details on mission_details.mission_id = wp_users.ID
                 left join mission_checklist on mission_checklist.user_id = wp_users.ID
@@ -44,11 +44,9 @@ get_header(); ?>
             ?>
             <div class="entry-content" >
                 <div>Mission: <?php echo $mission->display_name; ?></div>
-                <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
-                <div><a href="<?php echo home_url() ?>/mission-preparation/<?php echo $mission->mission_name; ?>">Mission preparation</a></div>
-                <div><a href="<?php echo home_url() ?>/mission-flight/<?php echo $mission->mission_name; ?>">Mission flight</a></div>
-                <div><a href="<?php echo home_url() ?>/mission-archive/<?php echo $mission->mission_name; ?>">Mission archive</a></div>
+                <div>Flight map goes here</div>
             </div>
+            
 
         </div>
 

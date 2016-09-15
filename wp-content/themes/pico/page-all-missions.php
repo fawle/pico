@@ -8,7 +8,7 @@ get_header(); ?>
         while ( have_posts() ) : the_post();
 
             // Include the page content template.
-            get_template_part( 'template-parts/content', 'page' );
+            get_template_part( 'template-parts/content');
 
 
         endwhile;
@@ -19,7 +19,7 @@ get_header(); ?>
             global $wpdb;
             /**@var wpdb  $wpdb */
             $userID =  get_current_user_id();
-            $results = $wpdb->get_results( "SELECT * FROM wp_users 
+            $results = $wpdb->get_results( "SELECT user_login as mission_name, status, display_name FROM wp_users 
               inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key='wp_user_level' AND meta_value = 2
               left JOIN mission_details on mission_details.mission_id = wp_users.ID
               order by user_registered desc LIMIT 100", OBJECT );
