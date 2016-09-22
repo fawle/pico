@@ -119,4 +119,13 @@ function wp_pico_add_rewrite_rules($aRules) {
     return $aRules;
 }
 
+/**
+ * load custom styles for login page
+ */
+function wp_pico_login_stylesheet() {
+    wp_enqueue_style( 'custom-login', get_stylesheet_directory_uri() . '/css/style-login.css' );
+    wp_enqueue_script( 'custom-login', get_stylesheet_directory_uri() . '/js/ls-login.js' );
+}
+add_action( 'login_enqueue_scripts', 'wp_pico_login_stylesheet' );
+
 ?>

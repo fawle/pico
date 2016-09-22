@@ -1,0 +1,76 @@
+/**
+* some selectors for you, css wizard
+*/
+
+body.login {
+    background-color:  #9bcc92;
+    font-family: Merriweather, Georgia, serif;
+
+}
+body.login div#login {
+    background-color: white;
+    margin: 0 auto;
+    max-width: 1320px;
+    position: relative;
+    padding: 10px;
+    font-family: Merriweather, Georgia, serif;
+    font-size: 16px;
+}
+
+body.login div#login p {
+    box-shadow: none;
+}
+
+@media screen and (min-width: 44.375em) {
+    body.login div#login {
+        margin: 21px auto;
+        width: 90%;
+    }
+}
+body.login div#login h1 {
+    font-family: Merriweather, Georgia, serif;
+}
+
+body.login div#login h1 a {
+    display: none;
+}
+body.login div#login form#loginform,
+body.login div#login form#lostpasswordform,
+body.login div#login form#registerform {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    max-width: 320px; margin: auto;
+}
+body.login div#login form#loginform p {}
+body.login div#login form#loginform p label,
+body.login div#login form#lostpasswordform p label,
+body.login div#login form#registerform p label {
+    font-size: 16px
+}
+body.login div#login form#loginform input {}
+body.login div#login form#loginform input#user_login {}
+body.login div#login form#loginform input#user_pass {}
+body.login div#login form#loginform p.forgetmenot {}
+body.login div#login form#loginform p.forgetmenot input#rememberme {}
+body.login div#login form#loginform p.submit {}
+
+body.login div#login form#loginform p.submit input#wp-submit,
+body.login div#login form#lostpasswordform p.submit input#wp-submit,
+body.login div#login form#registerform p.submit input#wp-submit {
+    background-color: #9bcc92;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    text-shadow: none;
+    text-decoration: none;
+    border: none;
+    font-size: 16px;
+}
+body.login div#login p#nav,
+body.login div#login p#backtoblog,
+body.login div#login p.message {
+    font-size: 16px; max-width: 320px; margin: auto;
+}
+body.login div#login p#nav a,
+body.login div#login p#backtoblog a,
+body.login div#login p.message a {
+    color: #509637;}
