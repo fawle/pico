@@ -11,20 +11,39 @@ if (!is_user_logged_in()) {
     exit();
 }
 $userId =  get_current_user_id();
+
 /**
  * rough and dirty save form input
  */
 
-for ($i=1; $i<=count($_POST['planned']); $i++) {
-    //convert to date
-    $planned = (!$_POST['planned'][$i] || $_POST['planned'][$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($_POST['planned'][$i])) ;
-    $completed = (!$_POST['completed'][$i] || $_POST['completed'][$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($_POST['completed'][$i]));
+if (($_POST['status']) !=='') {
+
+    $status = (int) $_POST['status'] ;
     $wpdb->get_results($wpdb->prepare('
+      INSERT INTO mission_details (mission_id, status)
+      VALUES(%d, %d) ON DUPLICATE KEY UPDATE    
+      status = %d',
+        $userId, $status, $status)
+    );
+}
+
+if (array_filter($_POST['planned'])) {
+
+    /**
+     * loop through steps
+     */
+    for ($i = 1; $i <= count($_POST['planned']); $i++) {
+        //convert to date
+        $planned = (!$_POST['planned'][$i] || $_POST['planned'][$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($_POST['planned'][$i]));
+        $completed = (!$_POST['completed'][$i] || $_POST['completed'][$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($_POST['completed'][$i]));
+        $wpdb->get_results($wpdb->prepare('
       INSERT INTO mission_checklist (user_id, step_id, planned_for, completed_on)
       VALUES(%d, %d, %s, %s ) ON DUPLICATE KEY UPDATE    
       planned_for = %s, completed_on = %s',
-      $userId, $i, $planned, $completed, $planned, $completed)
-    );
+            $userId, $i, $planned, $completed, $planned, $completed)
+        );
+    }
+    wp_redirect(get_permalink());
 }
 
 get_header(); ?>
@@ -72,13 +91,23 @@ get_header(); ?>
 
                 <?php
                 $steps = $wpdb->get_results($wpdb->prepare(
-                    'SELECT * FROM mission_steps 
+                    'SELECT step_label, mission_steps.step_id, planned_for, completed_on, status  
+                FROM mission_steps 
+                left JOIN mission_details on mission_details.mission_id = %d
                 left JOIN mission_checklist on mission_checklist.step_id = mission_steps.step_id AND mission_checklist.user_id = %d
                 order by mission_steps.step_id
-               ', $mission->ID));
+               ', $mission->ID,$mission->ID ));
 
                 ?>
                 <form action="<?php echo home_url('mission-management'); ?>" method="POST">
+
+                    <p>
+                        <label for="status"> Status:</label> <select id="status" name="status">
+                            <option value="">--Select--</option>
+                            <option value="1" <?php if ($steps[0]->status == 1) echo 'selected';?>>Live</option>
+                            <option value="0" <?php if ($steps[0]->status == 0) echo 'selected';?>>Archived</option>
+                        </select>
+                    </p>
                     <table>
                         <tr>
                             <td>Step</td><td>Planned For</td><td>Completed On</td>

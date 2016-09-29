@@ -5,7 +5,7 @@
 body.login {
     background-color:  #9bcc92;
     font-family: Merriweather, Georgia, serif;
-
+    padding-top: 21px;
 }
 body.login div#login {
     background-color: white;
@@ -23,7 +23,7 @@ body.login div#login p {
 
 @media screen and (min-width: 44.375em) {
     body.login div#login {
-        margin: 21px auto;
+        margin: auto;
         width: 90%;
     }
 }
