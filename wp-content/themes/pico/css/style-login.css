@@ -3,8 +3,8 @@
 */
 
 body.login {
-    background-color:  #9bcc92;
-    font-family: Merriweather, Georgia, serif;
+    /*background-color:  #9bcc92;*/
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     padding-top: 21px;
 }
 body.login div#login {
@@ -13,7 +13,7 @@ body.login div#login {
     max-width: 1320px;
     position: relative;
     padding: 10px;
-    font-family: Merriweather, Georgia, serif;
+    font-family:"Trebuchet MS", Helvetica, sans-serif;
     font-size: 16px;
 }
 
@@ -28,7 +28,7 @@ body.login div#login p {
     }
 }
 body.login div#login h1 {
-    font-family: Merriweather, Georgia, serif;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 body.login div#login h1 a {

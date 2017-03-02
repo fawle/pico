@@ -1,10 +1,12 @@
 <?php
+
 /**
  * @TODO add proper back and front end date validation
  * @TODO add datepicker 
  * @TODO add status flag management
  */
 
+/** @TODO shift all this into a hook at least */
 
 if (!is_user_logged_in()) {
     wp_redirect(home_url());
@@ -16,35 +18,13 @@ $userId =  get_current_user_id();
  * rough and dirty save form input
  */
 
-if (($_POST['status']) !=='') {
-
-    $status = (int) $_POST['status'] ;
-    $wpdb->get_results($wpdb->prepare('
-      INSERT INTO mission_details (mission_id, status)
-      VALUES(%d, %d) ON DUPLICATE KEY UPDATE    
-      status = %d',
-        $userId, $status, $status)
-    );
-}
-
-if (array_filter($_POST['planned'])) {
-
-    /**
-     * loop through steps
-     */
-    for ($i = 1; $i <= count($_POST['planned']); $i++) {
-        //convert to date
-        $planned = (!$_POST['planned'][$i] || $_POST['planned'][$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($_POST['planned'][$i]));
-        $completed = (!$_POST['completed'][$i] || $_POST['completed'][$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($_POST['completed'][$i]));
-        $wpdb->get_results($wpdb->prepare('
-      INSERT INTO mission_checklist (user_id, step_id, planned_for, completed_on)
-      VALUES(%d, %d, %s, %s ) ON DUPLICATE KEY UPDATE    
-      planned_for = %s, completed_on = %s',
-            $userId, $i, $planned, $completed, $planned, $completed)
-        );
-    }
+if ($_POST && $_POST['form_submitted']==='1')
+{
+    do_action('pico_process_mission');
     wp_redirect(get_permalink());
 }
+
+
 
 get_header(); ?>
 
@@ -84,9 +64,10 @@ get_header(); ?>
             ?>
             <div class="entry-content" >
                 <div>Mission: <?php echo $mission->display_name; ?></div>
-                <div>Status will be managed here</div>
 
-                <div>Preparation Checklist will be managed here
+
+
+                <div>Preparation Checklist managed here
                     (eventually with a calendar!)
 
                 <?php
@@ -99,10 +80,19 @@ get_header(); ?>
                ', $mission->ID,$mission->ID ));
 
                 ?>
-                <form action="<?php echo home_url('mission-management'); ?>" method="POST">
 
+                    <div class="mission-picture">
+                        
+                        <?php if ($mission->pic_url) {
+                            echo "<img src='".$mission->pic_url."' />";
+                        }
+                        ?>
+                    </div>
+                <form enctype="multipart/form-data" action="<?php echo home_url('mission-management'); ?>" method="POST">
+                    <input type="hidden" name="form_submitted" id="form_submitted" value="1"/>
                     <p>
-                        <label for="status"> Status:</label> <select id="status" name="status">
+                        <label for="status"> Status:</label>
+                        <select id="status" name="status">
                             <option value="">--Select--</option>
                             <option value="1" <?php if ($steps[0]->status == 1) echo 'selected';?>>Live</option>
                             <option value="0" <?php if ($steps[0]->status == 0) echo 'selected';?>>Archived</option>
@@ -116,11 +106,16 @@ get_header(); ?>
                         <?php foreach ($steps as $missionStep) { ?>
                             <tr>
                                 <td><?php echo $missionStep->step_label; ?></td>
-                                <td><input name="planned[<?php echo $missionStep->step_id ; ?>]" type="text" value="<?php echo $missionStep->planned_for; ?>" /></td>
-                                <td><input name="completed[<?php echo $missionStep->step_id ; ?>]" type="text" value="<?php echo $missionStep->completed_on; ?>" /></td>
+                                <td><input class="" name="planned[<?php echo $missionStep->step_id ; ?>]" type="date" value="<?php echo $missionStep->planned_for; ?>" /></td>
+                                <td><input name="completed[<?php echo $missionStep->step_id ; ?>]" type="date" value="<?php echo $missionStep->completed_on; ?>" /></td>
                             </tr>
                         <?php } ?>
                     </table>
+
+
+                    Upload new picture
+                    <input type="file" name="m_image" id="m_image" />
+
                     <button type="submit" value="Update" >Update</button>
                 </form>
                 </div>

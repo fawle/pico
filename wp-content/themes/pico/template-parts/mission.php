@@ -6,7 +6,7 @@ foreach ($results as $mission) { ?>
             Mission: <?php echo $mission->display_name; ?>
         </a>
     </div>
-    <div>Picture</div>
+    <div>Picture TODO</div>
     <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
 
 </div>

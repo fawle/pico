@@ -13,3 +13,93 @@ Template:     twentysixteen
     box-sizing: inherit;
     position: relative;
 }
+
+.mission-picture {
+    padding: 10px;
+}
+
+.homepage-title {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    color: #52ba63;
+    font-size: 86px;
+}
+
+.pico-header-image {
+    float: left;
+    display: block;
+    margin: 0px;
+}
+
+.site-header {
+    padding: 0em;
+}
+
+.site {
+    margin: 0px;
+}
+
+body:not(.custom-background-image):before, body:not(.custom-background-image):after {
+    height: 0px;
+}
+
+.site-branding, .site-header-menu, .header-image {
+    margin: 0px;
+}
+
+.site-header-main {
+    background: #52ba63;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.main-navigation a {
+    color: white;
+    margin-left: 0.5em;
+}
+
+.main-navigation ul ul li {
+    background: #52ba63;
+}
+
+.main-navigation li:hover > a,
+.main-navigation li.focus > a {
+    color: white;
+    background-color: #c6b200;
+}
+
+
+.content-area {
+    margin-right: 0;
+    width: 98%;
+}
+
+.menu-toggle {
+    border: 1px solid #ffffff;
+    color: white;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+    background-color: #c6b200;
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.menu-toggle.toggled-on,
+.menu-toggle.toggled-on:hover,
+.menu-toggle.toggled-on:focus {
+    background-color: #c6b200;
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+
+.dropdown-toggle {
+    color: #ffffff;
+}
+
+.dropdown-toggle:hover,
+.dropdown-toggle:focus {
+    background-color: transparent;
+    color: #ffffff;
+}

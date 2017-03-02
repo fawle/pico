@@ -1,4 +1,7 @@
 <?php
+
+include_once("pico-functions.php");
+
 /**
  * @TODO customise login page
  * @TODO customise admin area
@@ -103,12 +106,15 @@ function wp_pico_remove_tools()
  * @return array
  */
 add_filter('query_vars', 'wp_pico_add_query_vars');
-function wp_pico_add_query_vars($aVars) {
-    $aVars[] = "mission"; // represents the name of the product category as shown in the URL
+function wp_pico_add_query_vars($aVars)
+{
+    $aVars[] = "mission"; // represents the name as shown in the URL
     return $aVars;
 }
+
 add_filter('rewrite_rules_array', 'wp_pico_add_rewrite_rules');
-function wp_pico_add_rewrite_rules($aRules) {
+function wp_pico_add_rewrite_rules($aRules)
+{
     $aNewRules = array(
         'mission-control/([^/]+)/?$' => 'index.php?pagename=mission-control&mission=$matches[1]',
         'mission-preparation/([^/]+)/?$' => 'index.php?pagename=mission-preparation&mission=$matches[1]',
@@ -128,4 +134,3 @@ function wp_pico_login_stylesheet() {
 }
 add_action( 'login_enqueue_scripts', 'wp_pico_login_stylesheet' );
 
-?>
