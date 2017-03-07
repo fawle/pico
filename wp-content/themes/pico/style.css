@@ -21,8 +21,28 @@ Template:     twentysixteen
 .homepage-title {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     color: #52ba63;
-    font-size: 86px;
+    font-size: 36px;
 }
+
+@media screen and (min-width: 44.375em) {
+    .homepage-title {
+        font-size: 66px;
+    }
+}
+
+@media screen and (min-width: 48.9375em) {
+    .homepage-title {
+        font-size: 74px;
+    }
+}
+
+
+@media screen and (min-width: 56.875em) {
+    .homepage-title {
+        font-size: 86px;
+    }
+}
+
 
 .pico-header-image {
     float: left;
@@ -36,6 +56,7 @@ Template:     twentysixteen
 
 .site {
     margin: 0px;
+    background-color: transparent;
 }
 
 body:not(.custom-background-image):before, body:not(.custom-background-image):after {
@@ -102,4 +123,13 @@ body:not(.custom-background-image):before, body:not(.custom-background-image):af
 .dropdown-toggle:focus {
     background-color: transparent;
     color: #ffffff;
+}
+
+html, body.home {
+    height: 100%; width: 100%;
+    padding: 0; margin: 0;
+}
+
+body.home {
+    background: #FFF url(images/peek-pico.gif) no-repeat bottom right;
 }

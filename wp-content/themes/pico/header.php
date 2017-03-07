@@ -77,7 +77,7 @@
 					<?php endif; ?>
 				</div><!-- .site-branding -->
 
-				<?php if ( is_user_logged_in() && !is_front_page() && has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) ) : ?>
+				<?php if ( !is_front_page() && has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) ) : ?>
 					<button id="menu-toggle" class="menu-toggle"><?php _e( 'Menu', 'twentysixteen' ); ?></button>
 
 					<div id="site-header-menu" class="site-header-menu">
