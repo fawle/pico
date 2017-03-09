@@ -4,14 +4,20 @@ Description:  Pico (Twenty Sixteen Child Theme)
 Template:     twentysixteen
 */
 
+body {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
 .mission {
     margin: 10px;
-    background-color: #CFD5D8;
+    background-color: #646464;
     float: left;
     padding: 10px;
     border-radius: 5px;
     box-sizing: inherit;
     position: relative;
+    width: 200px;
+    height: 200px;
 }
 
 .mission-picture {
@@ -22,6 +28,11 @@ Template:     twentysixteen
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     color: #52ba63;
     font-size: 36px;
+}
+
+h1 {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    color: #52ba63;
 }
 
 @media screen and (min-width: 44.375em) {
@@ -132,4 +143,10 @@ html, body.home {
 
 body.home {
     background: #FFF url(images/peek-pico.gif) no-repeat bottom right;
+}
+
+.mission-image {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }

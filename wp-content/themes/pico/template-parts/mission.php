@@ -6,7 +6,30 @@ foreach ($results as $mission) { ?>
             Mission: <?php echo $mission->display_name; ?>
         </a>
     </div>
-    <div>Picture TODO</div>
+    <div>
+        <?php
+
+            if ($mission->pic_url) {
+                $src = $mission->pic_url;
+            } else {
+                if ($mission->status) {
+                    $src = get_stylesheet_directory_uri() . '/images/placeholder-active.png';
+                } else {
+                    $src = get_stylesheet_directory_uri() . '/images/placeholder-ended.png';
+                }
+
+            }
+
+        ?>
+        <img src="<?php echo $src; ?>"
+             name="<?php echo $mission->mission_name;?>"
+             alt="<?php echo $mission->mission_name;?>"
+             height="100"
+             width="100"
+             class="mission-image"
+        >
+
+    </div>
     <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
 
 </div>

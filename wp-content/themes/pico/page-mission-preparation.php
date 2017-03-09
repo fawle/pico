@@ -56,7 +56,9 @@ get_header(); ?>
                         <td>Step</td><td>Planned For</td><td>Completed On</td>
                     </tr>
             
-                <?php foreach ($mission as $missionStep) { ?>
+                <?php
+                $missionId = $mission[0]->ID;
+                foreach ($mission as $missionStep) { ?>
                     <tr>
                         <td><?php echo $missionStep->step_id .'. '. $missionStep->step_label; ?></td>
                         <td><?php echo strtotime($missionStep->planned_for) > 0 ? date('d M Y', strtotime($missionStep->planned_for)) : 'n/a'; ?></td>
@@ -69,7 +71,10 @@ get_header(); ?>
             </div>
 
             <h2>Mission Journal:</h2>
-            <?php $query = new WP_Query( 'posts_per_page=-1&author='.$mission->ID );
+            <?php
+
+
+            $query = new WP_Query( 'posts_per_page=-1&author='.$missionId );
             if( $query->have_posts() ) : ?>
                 <?php while( $query->have_posts() ) : $query->the_post();
                     echo $post->post_title.'<br/>';
