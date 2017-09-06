@@ -1,3 +1,4 @@
+
 <?php
 
 $missionId = filter_var($wp_query->query_vars['mission'], FILTER_SANITIZE_STRING);
@@ -7,10 +8,14 @@ if (! $missionId) {
     exit();
 }
 
-get_header(); ?>
+get_header();
+?>
 
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEYRnigI-5bwe9t4ulawHTGSrVywEMf4Q&callback=initMap"></script>
+
+<script>
+   // var CALLSIGN = '<?php echo $missionId; ?>';
+    var CALLSIGN = 'RSIST'; //todo remove
+</script>
 
 <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
@@ -49,7 +54,7 @@ get_header(); ?>
                 <div>Mission: <?php echo $mission->display_name; ?></div>
                 <div>Flight map goes here
 
-                    <div id="map"></div>
+                    <div id="map_canvas"></div>
 
 
                 </div>
