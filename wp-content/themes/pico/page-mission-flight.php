@@ -9,6 +9,9 @@ if (! $missionId) {
 
 get_header(); ?>
 
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEYRnigI-5bwe9t4ulawHTGSrVywEMf4Q&callback=initMap"></script>
+
 <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
         <?php
@@ -44,7 +47,12 @@ get_header(); ?>
             ?>
             <div class="entry-content" >
                 <div>Mission: <?php echo $mission->display_name; ?></div>
-                <div>Flight map goes here</div>
+                <div>Flight map goes here
+
+                    <div id="map"></div>
+
+
+                </div>
             </div>
             
 
@@ -54,5 +62,6 @@ get_header(); ?>
 
 
 </div><!-- .content-area -->
+
 
 <?php get_footer(); ?>

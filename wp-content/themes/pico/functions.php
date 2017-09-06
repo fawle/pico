@@ -134,3 +134,16 @@ function wp_pico_login_stylesheet() {
 }
 add_action( 'login_enqueue_scripts', 'wp_pico_login_stylesheet' );
 
+define ('VERSION', '1.1');
+
+function version_id() {
+    if ( WP_DEBUG )
+        return time();
+    return VERSION;
+}
+
+function wp_pico_add_map_script()
+{
+    wp_enqueue_script( 'map-script', get_stylesheet_directory_uri() . '/js/map.js', '', version_id() );
+}
+add_action('wp_enqueue_scripts', 'wp_pico_add_map_script');
