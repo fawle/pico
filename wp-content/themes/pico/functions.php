@@ -144,6 +144,7 @@ function version_id() {
 
 function wp_pico_add_map_script()
 {
-    wp_enqueue_script( 'map-script', get_stylesheet_directory_uri() . '/js/map.js', '', version_id() );
+    wp_enqueue_script( 'geometry', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDEYRnigI-5bwe9t4ulawHTGSrVywEMf4Q&libraries=geometry,places&ext=.js', array('jquery'));
+    wp_enqueue_script( 'mission-flight-map', get_stylesheet_directory_uri() . '/js/flight-map.js', array('geometry'), version_id() );
 }
 add_action('wp_enqueue_scripts', 'wp_pico_add_map_script');
