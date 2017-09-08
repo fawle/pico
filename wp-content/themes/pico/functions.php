@@ -95,9 +95,12 @@ function wp_pico_only_mine_views_edit_post( $views )
 add_action( 'admin_menu', 'wp_pico_remove_tools', 99 );
 function wp_pico_remove_tools()
 {
-    if (! current_user_can( $GLOBALS['post_type_object']->cap->edit_others_posts)) {
-        remove_menu_page( 'tools.php' );
+    if (array_key_exists('post_type_object', $GLOBALS) ) {
+        if (! current_user_can( $GLOBALS['post_type_object']->cap->edit_others_posts)) {
+            remove_menu_page( 'tools.php' );
+        }
     }
+
 }
 
 /**
