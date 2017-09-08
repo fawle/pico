@@ -45,6 +45,7 @@ get_header(); ?>
                 echo '<H1>Mission not found</H1>';
                 exit();
             }
+            $missionId = $mission[0]->ID;
             ?>
             <div class="entry-content" >
                 <div>Mission: <?php echo $mission[0]->display_name; ?></div>
@@ -57,7 +58,7 @@ get_header(); ?>
                     </tr>
             
                 <?php
-                $missionId = $mission[0]->ID;
+
                 foreach ($mission as $missionStep) { ?>
                     <tr>
                         <td><?php echo $missionStep->step_id .'. '. $missionStep->step_label; ?></td>
@@ -75,6 +76,7 @@ get_header(); ?>
 
 
             $query = new WP_Query( 'posts_per_page=-1&author='.$missionId );
+ 
             if( $query->have_posts() ) : ?>
                 <?php while( $query->have_posts() ) : $query->the_post();
                     echo $post->post_title.'<br/>';

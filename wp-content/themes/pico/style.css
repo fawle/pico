@@ -20,6 +20,10 @@ body {
     height: 200px;
 }
 
+.mission a {
+    color: white;
+}
+
 .mission-picture {
     padding: 10px;
 }

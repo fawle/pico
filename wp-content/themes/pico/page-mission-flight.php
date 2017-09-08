@@ -14,7 +14,7 @@ get_header();
 
 <script>
    // var CALLSIGN = '<?php echo $missionId; ?>';
-    var CALLSIGN = 'RSIST'; //todo remove
+    var CALLSIGN = 'KF5KMP-8'; //todo remove
 </script>
 
 <div id="primary" class="content-area">
@@ -55,6 +55,7 @@ get_header();
                 <div>Flight map goes here
 
                     <div id="map_canvas"></div>
+                    <div id="status_div"></div>
 
 
                 </div>

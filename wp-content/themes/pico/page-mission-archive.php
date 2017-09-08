@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @TODO confirm data structure
+ * @TODO confirm data structure - no idea what should be here atm OR when we save it and populate the page
  */
 
 $missionId = filter_var($wp_query->query_vars['mission'], FILTER_SANITIZE_STRING);
@@ -51,9 +51,9 @@ get_header(); ?>
                 <div>Mission: <?php echo $mission->display_name; ?></div>
                 <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
                 <div>If we have archived any data from the tracker, it will appear below</div>
-                <div class="mission">
+                <div class="">
                     Date: <?php echo date('Y.m.d', strtotime($mission->mission_date)); ?><br/>
-                    Time: <?php echo date('h:m:i', $mission->mission_date); ?><br/>
+                    Time: <?php echo date('h:m:i', strtotime($mission->mission_date)); ?><br/>
                     Lat: <?php echo $mission->latitude; ?><br/>
                     Long: <?php echo $mission->longitude; ?><br/>
                     Alt: <?php echo $mission->altitude; ?><br/>
