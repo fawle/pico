@@ -52,7 +52,7 @@
 				<?php if (is_user_logged_in())  : ?>
 					<a href="<?php echo wp_logout_url(); ?>">Log out</a>
 				<?php else : ?>
-					<a href="<?php echo wp_login_url(); ?>">Log in</a>&nbsp;|&nbsp; <a href="<?php echo wp_registration_url(); ?>">Sign Up</a>
+					<a href="<?php echo wp_login_url(); ?>">Log in</a>&nbsp;
 				<?php endif; ?>
 			</div>
 		</div>
