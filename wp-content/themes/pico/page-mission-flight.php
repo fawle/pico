@@ -14,11 +14,11 @@ get_header();
 
 <script>
    // var CALLSIGN = '<?php echo $missionId; ?>';
-    var CALLSIGN = 'KF5KMP-8'; //todo remove
+    var CALLSIGN = 'KF5PGW-11'; //todo remove
 </script>
 
 <div id="primary" class="content-area">
-    <main id="main" class="site-main" role="main">
+    <main id="main" class="site-main plugged" role="main">
         <?php
         // Start the loop.
         while ( have_posts() ) : the_post();
