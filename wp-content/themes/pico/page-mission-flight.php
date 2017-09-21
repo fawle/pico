@@ -14,7 +14,7 @@ get_header();
 
 <script>
    // var CALLSIGN = '<?php echo $missionId; ?>';
-    var CALLSIGN = 'KF5KMP-8'; //todo remove
+    var CALLSIGN = 'KF5PGW-11'; //todo remove
 </script>
 
 <div id="primary" class="content-area">

@@ -79,9 +79,15 @@ get_header(); ?>
  
             if( $query->have_posts() ) : ?>
                 <?php while( $query->have_posts() ) : $query->the_post();
-                    echo $post->post_title.'<br/>';
+                    echo '<h4>'.$post->post_title.'</h4>';
+                    if(has_post_thumbnail()){
+                        echo "<div>";
+                        the_post_thumbnail();
+                        echo "</div>";
+                    }
                     echo $post->post_content.'<br/>';
                     echo $post->post_date.'<br/>';
+                
                 endwhile;
             endif;
             wp_reset_postdata(); ?>
