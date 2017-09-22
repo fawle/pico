@@ -28,6 +28,11 @@ if ($_POST && isset($_POST['post_submitted']) && $_POST['post_submitted'] === '1
     wp_redirect(get_permalink());
 }
 
+if (isset($_GET['delete']) && (int)$_GET['delete']) {
+    do_action('pico_delete_post');
+    wp_redirect(get_permalink());
+}
+
 //todo delete action
 
 get_header(); ?>
@@ -186,10 +191,10 @@ get_header(); ?>
                             echo '<h4>'.$post->post_title.'</h4>';
                             if(has_post_thumbnail()){
                                 echo "<div>";
-                                the_post_thumbnail();
+                                the_post_thumbnail('thumbnail');
                                 echo "</div>";
                             }
-                            echo $post->post_content.'<br/>';
+                            the_content();
                             echo $post->post_date.'<br/>';?>
                             <a href="<?php echo home_url(); ?>/mission-management/?delete=<?php echo $post->ID; ?>">Delete</a>
                             <a href="<?php echo home_url(); ?>/mission-postedit/?edit=<?php echo $post->ID; ?>">Edit</a>

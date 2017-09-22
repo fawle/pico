@@ -13,8 +13,7 @@ get_header();
 
 
 <script>
-   // var CALLSIGN = '<?php echo $missionId; ?>';
-    var CALLSIGN = 'KF5PGW-11'; //todo remove
+   var CALLSIGN = '<?php echo $missionId; ?>';
 </script>
 
 <div id="primary" class="content-area">

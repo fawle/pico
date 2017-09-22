@@ -14,8 +14,12 @@ if (!isset($_GET['edit']) || !(int)$_GET['edit']) {
     exit();
 }
 
-//todo save action
+//save action
 
+if ($_POST && isset($_POST['post_submitted']) && $_POST['post_submitted'] === '1') {
+    do_action('pico_process_post');
+    wp_redirect(home_url(). '/mission-management');
+}
 
 get_header();
 $query = new WP_Query( 'posts_per_page=-1&author='.$userId.'&p='. (int)$_GET['edit']);
@@ -29,7 +33,7 @@ if( $query->have_posts() ) : ?>
 
 <div style="padding: 25px 0 0 0"><h1>Mission journal: </h1>
 
-                    <form enctype="multipart/form-data" action="<?php echo home_url('mission-postedit'); ?>"
+                    <form enctype="multipart/form-data" action="<?php echo home_url('mission-postedit'); ?>?edit=<?php echo (int)$_GET['edit']; ?>"
                              method="POST">
                         <input type="hidden" name="post_submitted" id="post_submitted" value="1"/>
                         <div class="post_title">

@@ -1,5 +1,6 @@
 <?php
 
+add_action ('pico_process_mission', 'wp_pico_process_mission');
 /**
  * process mission update
  */
@@ -58,16 +59,19 @@ function wp_pico_process_mission()
 
     return true;
 }
-add_action ('pico_process_mission', 'wp_pico_process_mission');
 
+
+
+add_action ('pico_process_post', 'wp_pico_process_post');
 /**
  *
  */
 function  wp_pico_process_post()
 {
-    $title = 'Mission update';
+    $title = 'No Title';
     $tags = [];
-    $description = 'No update';
+    $description = 'No Update';
+    $updating =  false;
 
     if (isset ($_POST['post_title'])) {
         $title =  $_POST['post_title'];
@@ -79,11 +83,10 @@ function  wp_pico_process_post()
     if (isset ($_POST['post_tags'])) {
         $tags = $_POST['post_tags'];
     }
-
-
+    
 
     // Add the content of the form to $post as an array
-    $new_post = array(
+    $post = array(
         'post_title'    => $title,
         'post_content'  => $description,
         //'post_category' => array($_POST['cat']),  // Usable for custom taxonomies too
@@ -91,17 +94,28 @@ function  wp_pico_process_post()
         'post_status'   => 'publish',           // Choose: publish, preview, future, draft, etc.
         'post_type' => 'post'  //'post',page' or custom post type
     );
-    $postId = wp_insert_post($new_post);
 
-    //toDO upload featured image
+    if (isset($_GET['edit']) && (int)$_GET['edit']) {
+        $updating = true;
+        $post['ID'] = (int)$_GET['edit'];
+        $postId = wp_update_post($post);
+    } else {
+        $postId = wp_insert_post($post);
+    }
+
+    //upload featured image
     if (isset($_FILES['post_image']) && ($_FILES['post_image']['size'] > 0)) {
+        //todo check for file size. only remove attachments if we're uploading the new file
+        if ($updating) {
+            delete_associated_media($postId);
+        }
         $imageFile = $_FILES['post_image'];
         $uploadedFile = uploadImage($imageFile);
-        $wp_filetype = wp_check_filetype(basename($uploadedFile['file']), null );
-        $wp_upload_dir = wp_upload_dir();
+        $wpFiletype = wp_check_filetype(basename($uploadedFile['file']), null );
+        $wpUploadDir = wp_upload_dir();
         $attachment = array(
-            'guid' => $wp_upload_dir['url'] . '/' . basename( $uploadedFile['file'] ),
-            'post_mime_type' => $wp_filetype['type'],
+            'guid' => $wpUploadDir['url'] . '/' . basename( $uploadedFile['file'] ),
+            'post_mime_type' => $wpFiletype['type'],
             'post_title' => preg_replace('/\.[^.]+$/', '', basename($imageFile['name'])),
             'post_content' => '',
             'post_status' => 'inherit'
@@ -115,6 +129,41 @@ function  wp_pico_process_post()
 
     //insert taxonomies
 }
+
+add_action ('pico_delete_post', 'wp_pico_delete_post');
+/**
+ *
+ */
+function wp_pico_delete_post()
+{
+    if (!isset($_GET['delete']) || !(int)$_GET['delete']) {
+       return false;
+    }
+    $postId = (int)$_GET['delete'];
+    if (wp_delete_post( $postId, true )) {
+        //todo delete attachments
+    }
+    return true;
+}
+
+/**
+ * @param delete all media before deleting post
+ */
+function delete_associated_media( $id ) {
+    $media = get_children( array(
+        'post_parent' => $id,
+        'post_type'   => 'attachment'
+    ) );
+
+    if( empty( $media ) ) {
+        return;
+    }
+
+    foreach( $media as $file ) {
+        wp_delete_attachment( $file->ID );
+    }
+}
+add_action( 'before_delete_post', 'delete_associated_media' );
 
 /**
  * @param $imageFile $_POST array
@@ -143,10 +192,11 @@ function uploadImage($imageFile)
     }
 }
 
-add_action ('pico_process_post', 'wp_pico_process_post');
+
+
 
 /**
- * resize filter
+ * image resize filter
  */
 add_filter('wp_handle_upload', 'max_dims_for_new_uploads', 10, 2 );
 function max_dims_for_new_uploads( $array, $context ) {

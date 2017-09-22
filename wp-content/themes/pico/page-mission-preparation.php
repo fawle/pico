@@ -85,7 +85,7 @@ get_header(); ?>
                         the_post_thumbnail();
                         echo "</div>";
                     }
-                    echo $post->post_content.'<br/>';
+                    the_content();
                     echo $post->post_date.'<br/>';
                 
                 endwhile;
