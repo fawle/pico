@@ -12,6 +12,3 @@ Send request to:
 with correct vehicles
 
 https://spacenear.us/tracker/datanew.php?mode=1day&type=positions&format=json&max_positions=0&position_id=0&vehicles=UBSEDS24
-
-Google maps api key
-AIzaSyDEYRnigI-5bwe9t4ulawHTGSrVywEMf4Q
