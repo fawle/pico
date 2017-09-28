@@ -107,19 +107,18 @@ if (!$mission) {
                             <tr>
                                 <td>Call sign:</td>
                                 <td><strong><?php echo $mission->user_login; ?></strong></td>
-                                <td>(Cannot be changed)</td>
+
                             </tr>
                             <tr>
                                 <td>Step</td>
-                                <td>Planned For</td>
+
                                 <td>Completed On</td>
                             </tr>
 
                             <?php foreach ($steps as $missionStep) { ?>
                                 <tr>
                                     <td><?php echo $missionStep->step_label; ?>:</td>
-                                    <td><input class="" name="planned[<?php echo $missionStep->step_id; ?>]" type="date"
-                                               value="<?php echo $missionStep->planned_for; ?>"/></td>
+
                                     <td><input name="completed[<?php echo $missionStep->step_id; ?>]" type="date"
                                                value="<?php echo $missionStep->completed_on; ?>"/></td>
                                 </tr>
@@ -128,7 +127,7 @@ if (!$mission) {
 
                             <tr>
                                 <td><label for="status"> Status:</label></td>
-                                <td colspan="2"><select id="status" name="status">
+                                <td><select id="status" name="status">
                                         <option value="">--Select--</option>
                                         <option value="1" <?php if ($steps[0]->status == 1) echo 'selected'; ?>>Prep
                                         </option>
@@ -142,8 +141,9 @@ if (!$mission) {
                             </tr>
 
                             <tr>
-                                <td>Current picture shown on all missions page:</td>
-
+                                <td> Upload new picture:
+                                    <br/>
+                                    <input type="file" name="m_image" id="m_image"/></td>
                                 <td>
                                     <div class="mission-picture">
                                         <?php if ($mission->pic_url) {
@@ -151,9 +151,7 @@ if (!$mission) {
                                         }
                                         ?></div>
                                 </td>
-                                <td> Upload new picture:
-                                    <br/>
-                                    <input type="file" name="m_image" id="m_image"/></td>
+
 
                             </tr>
 

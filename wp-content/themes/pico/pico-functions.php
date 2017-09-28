@@ -19,23 +19,23 @@ function wp_pico_process_mission()
         );
     }
 
-    $aPlanned = (array) $_POST['planned'];
+   // $aPlanned = (array) $_POST['planned'];
     $aCompleted = (array) $_POST['completed'];
 
-    if (array_filter($aPlanned)) {
+    if (array_filter($aCompleted)) {
 
         /**
          * loop through steps
          */
-        for ($i = 1; $i <= count($aPlanned); $i++) {
+        for ($i = 1; $i <= count($aCompleted); $i++) {
             //convert to date
-            $planned = (!$aPlanned[$i] || $aPlanned[$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($aPlanned[$i]));
+            //$planned = (!$aPlanned[$i] || $aPlanned[$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($aPlanned[$i]));
             $completed = (!$aCompleted[$i] || $aCompleted[$i] === '0000-00-00') ? '0000-00-00' : date('Y-m-d', strtotime($aCompleted[$i]));
             $wpdb->get_results($wpdb->prepare('
-          INSERT INTO mission_checklist (user_id, step_id, planned_for, completed_on)
-          VALUES(%d, %d, %s, %s ) ON DUPLICATE KEY UPDATE    
-          planned_for = %s, completed_on = %s',
-                $userId, $i, $planned, $completed, $planned, $completed)
+          INSERT INTO mission_checklist (user_id, step_id, completed_on)
+          VALUES(%d, %d, %s ) ON DUPLICATE KEY UPDATE    
+          completed_on = %s',
+                $userId, $i, $completed, $completed)
             );
         }
     }
