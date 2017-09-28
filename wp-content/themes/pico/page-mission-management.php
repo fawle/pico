@@ -8,6 +8,8 @@
 
 /** @TODO shift all this into a hook at least */
 
+/** @TODO remove planned for column */
+
 if (!is_user_logged_in()) {
     wp_redirect(home_url());
     exit();
@@ -33,42 +35,51 @@ if (isset($_GET['delete']) && (int)$_GET['delete']) {
     wp_redirect(get_permalink());
 }
 
-//todo delete action
+get_header();
 
-get_header(); ?>
+
+//get mission here to append to page title
+global $wpdb;
+/**@var wpdb $wpdb */
+
+
+$mission = $wpdb->get_row($wpdb->prepare(
+    'SELECT * FROM wp_users 
+                inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
+                left JOIN mission_details on mission_details.mission_id = wp_users.ID
+                where ID = %s
+               ',
+    $userId
+), OBJECT);
+if (!$mission) {
+    echo '<H1>Mission not found</H1>';
+    exit();
+}
+?>
 
 <div id="primary" class="content-area">
     <main id="main" class="site-main plugged" role="main">
         <?php
+
+
+
         // Start the loop.
         while (have_posts()) : the_post();
 
             // Include the page content template.
-            get_template_part('template-parts/content', 'page');
-
+            //get_template_part('template-parts/content', 'page');
+             ?>
+        <h1 class="entry-title"><?php the_title(); echo ": ".$mission->user_login; ?></h1>
+            
+        <?php    the_content();
 
         endwhile;
         ?>
 
         <div class="entry-content">
             <?php //get user missions
-            global $wpdb;
-            /**@var wpdb $wpdb */
 
 
-            $mission = $wpdb->get_row($wpdb->prepare(
-                'SELECT * FROM wp_users 
-                inner join wp_usermeta on wp_usermeta.user_id = wp_users.ID and meta_key=\'wp_user_level\' AND meta_value = 2
-                left JOIN mission_details on mission_details.mission_id = wp_users.ID
-                where ID = %s
-               ',
-                $userId
-            ), OBJECT);
-
-            if (!$mission) {
-                echo '<H1>Mission not found</H1>';
-                exit();
-            }
 
             ?>
             <div class="entry-content">
@@ -119,10 +130,13 @@ get_header(); ?>
                                 <td><label for="status"> Status:</label></td>
                                 <td colspan="2"><select id="status" name="status">
                                         <option value="">--Select--</option>
-                                        <option value="1" <?php if ($steps[0]->status == 1) echo 'selected'; ?>>Live
+                                        <option value="1" <?php if ($steps[0]->status == 1) echo 'selected'; ?>>Prep
                                         </option>
-                                        <option value="0" <?php if ($steps[0]->status == 0) echo 'selected'; ?>>
-                                            Archived
+                                        <option value="2" <?php if ($steps[0]->status == 2) echo 'selected'; ?>>
+                                            Flight
+                                        </option>
+                                        <option value="3" <?php if ($steps[0]->status == 3) echo 'selected'; ?>>
+                                            Finished
                                         </option>
                                     </select></td>
                             </tr>

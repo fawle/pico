@@ -15,27 +15,25 @@ include_once("pico-functions.php");
  */
 add_action( 'wp_enqueue_scripts', 'wp_pico_theme_enqueue_styles' );
 function wp_pico_theme_enqueue_styles() {
-    wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css', '', version_id() );
+    wp_enqueue_style('twentysixteen-style',  get_stylesheet_directory_uri() . '/style.css', '', version_id() );
 }
 
-/**
- * Redundant - all logged in users can edit posts. Left for my reference.
- */
+
 function wp_pico_disable_admin_bar() {
-    if ( ! current_user_can('edit_posts') ) {
+   if ( ! current_user_can('create_users') ) {
         add_filter('show_admin_bar', '__return_false');
     }
 }
 add_action( 'after_setup_theme', 'wp_pico_disable_admin_bar' );
 
 /**
- * Redundant - left for reference
  * Redirect back to homepage and not allow access to
  * WP admin for Subscribers.
  */
 function wp_pico_redirect_admin()
 {
-    if ( ! defined('DOING_AJAX') && ! current_user_can('edit_posts') ) {
+    if ( ! defined('DOING_AJAX') && ! current_user_can('create_users') ) {
         wp_redirect( site_url() );
         exit;
     }
@@ -147,7 +145,7 @@ function version_id() {
 
 function wp_pico_add_map_script()
 {
-    if (!is_page('mission-flight')) {
+    if (!is_page('mission-control')) {
         return true;
     }
     wp_enqueue_script( 'geometry', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDEYRnigI-5bwe9t4ulawHTGSrVywEMf4Q&libraries=geometry,places&ext=.js', array('jquery'));

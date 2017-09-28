@@ -2,8 +2,8 @@
 
 foreach ($results as $mission) { ?>
 <div class="mission entry-content" >
-    <div><a href="<?php echo home_url() . '/mission-control/' . $mission->mission_name; ?>">
-            Mission: <?php echo $mission->display_name; ?>
+    <div class="mission-header"><a href="<?php echo home_url() . '/mission-control/' . $mission->mission_name; ?>">
+            Mission: <?php echo $mission->mission_name; ?>
         </a>
     </div>
     <div>
@@ -30,7 +30,7 @@ foreach ($results as $mission) { ?>
         >
 
     </div>
-    <div>Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
+    <div class="mission-header">Status: <?php echo $mission->status? 'Active' : 'Ended' ?> </div>
 
 </div>
 
