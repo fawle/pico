@@ -58,7 +58,7 @@ $missionId = $mission[0]->ID;
                 ?>
                 <table>
                     <tr>
-                        <td>Step</td><td>Planned For</td><td>Completed On</td>
+                        <td>Step</td><td>Completed On</td>
                     </tr>
 
                     <?php
@@ -66,7 +66,7 @@ $missionId = $mission[0]->ID;
                     foreach ($mission as $missionStep) { ?>
                         <tr>
                             <td><?php echo $missionStep->step_id .'. '. $missionStep->step_label; ?></td>
-                            <td><?php echo strtotime($missionStep->planned_for) > 0 ? date('d M Y', strtotime($missionStep->planned_for)) : 'n/a'; ?></td>
+                           
                             <td><?php echo strtotime($missionStep->completed_on) > 0 ? date('d M Y', strtotime($missionStep->completed_on)) : 'n/a'; ?></td>
 
                         </tr>
