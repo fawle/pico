@@ -212,3 +212,7 @@ function max_dims_for_new_uploads( $array, $context ) {
     $editor->save( $array['file'] );
     return $array;
 }
+
+
+/** never show admin bar */
+show_admin_bar(false);

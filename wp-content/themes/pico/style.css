@@ -169,3 +169,11 @@ body.home {
 }
 
 .site-main.plugged > article {margin-bottom:5px}
+
+.widget, .page-header {
+    border-top: 0px;
+}
+
+.entry-title a {
+    color: #509637;
+}
